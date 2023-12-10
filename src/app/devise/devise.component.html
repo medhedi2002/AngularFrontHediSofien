@@ -1,0 +1,53 @@
+<!-- Registration Form -->
+<div class="container mt-4">
+    <div class="card">
+      <h1>Currency Registration</h1>
+      <form>
+       
+        <div class="form-group">
+         
+        <div class="form-group">
+            <label>Code</label>
+            <input type="text" [(ngModel)]="code" [ngModelOptions]="{standalone: true}" class="form-control" id="code" placeholder="Enter Code">
+          </div>
+          <div class="form-group">
+            <label>Symbol</label>
+            <input type="text" [(ngModel)]="symbole" [ngModelOptions]="{standalone: true}" class="form-control" id="symbole" placeholder="Enter Symbole">
+          </div>
+          <label>Rate</label>
+          <input type="text" [(ngModel)]="taux" [ngModelOptions]="{standalone: true}" class="form-control" id="taux" placeholder="Enter Taux">
+        </div>
+        <button type="submit" class="btn btn-primary mt-4" (click)="save()">  {{ isEditMode ? 'Update Currency' : 'Add Currency' }}</button>
+      </form>
+    </div>
+  
+    <!-- Devise Table -->
+    <div class="container mt-4">
+      <h1>Currency Table</h1>
+      <table class="table">
+        <thead>
+          <h1 *ngIf="!isResultLoaded">Loading</h1>
+          <tr>
+            <th scope="col">Code</th>
+            <th scope="col">Symbol</th>
+            <th scope="col">Rate</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let DeviseItem of DeviseArray">
+            <td>{{DeviseItem.code | uppercase}}</td>
+            <td>{{DeviseItem.symbole | uppercase}}</td>
+            <td>{{DeviseItem.taux}}</td>
+
+            <td>
+              <button type="button" class="btn btn-success" (click)="setUpdateDevise(DeviseItem)">Edit</button>
+              <button type="button" class="btn btn-danger" (click)="setDeleteDevise(DeviseItem)">Delete</button>
+            </td>
+          </tr>
+          
+        </tbody>
+      </table>
+    </div>
+  </div>
+  

@@ -1,0 +1,76 @@
+<!-- Invoice Form -->
+<div class="container mt-4">
+  <div class="card">
+    <h1>Bill Registration</h1>
+    <form>
+      <div class="form-group">
+        <label>Date:</label>
+        <input type="text" [(ngModel)]="dateF" [ngModelOptions]="{standalone: true}" class="form-control" id="dateF" placeholder="Enter Date">
+      </div>
+      <div class="form-group">
+        <label>Amount:</label>
+        <input type="text" [(ngModel)]="montant" [ngModelOptions]="{standalone: true}" class="form-control" id="montant" placeholder="Enter Amount">
+      </div>
+      <div class="form-group">
+        <label>Customer:</label>
+        <select class="form-control" [(ngModel)]="client_id" [ngModelOptions]="{standalone: true}" id="client_id" required>
+          <option value="" disabled>Select Customer</option>
+          <option *ngFor="let customer of customerList" [value]="customer.code">{{ customer.code }}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Currency:</label>
+        <select class="form-control" [(ngModel)]="devise_id" [ngModelOptions]="{standalone: true}" id="devise_id" required>
+          <option value="" disabled>Select Currency</option>
+          <option *ngFor="let devise of deviseList" [value]="devise.code">{{ devise.code }}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Bill Number:</label>
+        <input type="text" [(ngModel)]="numero" [ngModelOptions]="{standalone: true}" class="form-control" id="numero" placeholder="Enter Bill Number">
+      </div>
+      <button type="submit" class="btn btn-primary mt-4" (click)="save()"> {{ isEditMode ? 'Update Bill' : 'Add Bill' }}</button>
+    </form>
+  </div>
+ <!-- Invoice Table -->
+<div class="container mt-4">
+  <h1>Bill Table</h1>
+  <table class="table">
+    <thead>
+      <h1 *ngIf="!isResultLoaded">Loading</h1>
+      <tr>
+        <th scope="col">Date</th>
+        <th scope="col">Amount</th>
+        <th scope="col">Customer</th>
+        <th scope="col">Currency</th>
+        <th scope="col">Bill Number</th>
+        <th scope="col">Converted Amount</th>
+        <th scope="col">Sum</th> <!-- New column for the sum -->
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let FactureItem of FactureArray">
+        <td>{{ FactureItem.dateF }}</td>
+        <td>{{ FactureItem.montant }}</td>
+        <td>{{ FactureItem.client.code }}</td>
+        <td>{{ FactureItem.devise.code }}</td>
+        <td>{{ FactureItem.numero }}</td>
+        <td>{{ FactureItem.montantApresEchange }}</td>
+        <td>{{ FactureItem.sumValue}}</td> <!-- Display the sum value here -->
+        <td class="d-flex justify-content-between">
+          <div>
+            <button type="button" class="btn btn-success" (click)="setUpdate(FactureItem)">Edit</button>
+            <button type="button" class="btn btn-danger" (click)="setDelete(FactureItem)">Delete</button>
+          
+            <!-- Button to invoke convertirMontant -->
+            <button type="button" class="btn btn-primary" (click)="convertirMontant(FactureItem)">Convert</button>
+            <button type="button" class="btn btn-info" (click)="calculerSomme(FactureItem.client.id, FactureItem)">Sum</button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
